@@ -37,21 +37,25 @@ UF::UF(int iNum)
     for(int i = 0; i < iNum; ++i)
     {   
         _pParent[i] = i;        //父结点设成自己
-        _pSonNum[i] = 1;
+        _pSonNum[i] = 1;        //初始每个孩子结点个数为1
     }
     
     _iCount = iNum;
 }
 
 
+// 在查找的同时,修正树的高度.每次查找都会修正,修到最后,树的高度不会超过2
 int UF::findRoot(int i)
 {
-    while(_pParent[i] != i) i = _pParent[i];
+    while(_pParent[i] != i) // 根结点的parent为自己
+    {
+        _pParent[i] = _pParent[_pParent[i]];
+        
+        i = _pParent[i];
+    }   
 
     return i;
 }
-
-
 
 
 int UF::connect(int p, int q)
