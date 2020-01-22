@@ -37,7 +37,7 @@ UF::UF(int iNum)
     for(int i = 0; i < iNum; ++i)
     {   
         _pParent[i] = i;        //父结点设成自己
-        _pSonNum = 1;
+        _pSonNum[i] = 1;
     }
     
     _iCount = iNum;
@@ -54,8 +54,6 @@ int UF::findRoot(int i)
 
 
 
-
-
 int UF::connect(int p, int q)
 {
     int iRootP = findRoot(p);
@@ -63,16 +61,16 @@ int UF::connect(int p, int q)
 
     if(iRootP == iRootQ) return 0;
 
-    if(_pSonNum[p] > _pSonNum[q])
+    if(_pSonNum[p] > _pSonNum[q])   //把小的挂在大的下面
     {
-        
+        _pParent[q] = p;
+        _pSonNum[p] += _pSonNum[q];
     }
     else
     {
-
+        _pParent[p] = q;
+        _pSonNum[q] += _pSonNum[p];
     }
-
-
     
     --_iCount;
 
